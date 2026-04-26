@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UV-R5 Mini // BOOT IMG</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark">
+
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-top">
+          <span class="brand-make">BAOFENG</span>
+          <span class="brand-sep">///</span>
+          <span class="brand-model">UV-R5 MINI</span>
+        </div>
+        <div class="brand-desc">BOOT SCREEN IMAGE CONVERTER</div>
+        <div class="brand-spec">128×138px &nbsp;·&nbsp; 24-BIT BMP &nbsp;·&nbsp; CLIENT-SIDE</div>
+      </div>
+      <div class="header-right">
+        <div class="sig-meter" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <button id="themeToggle" aria-label="Toggle display mode">DAY MODE</button>
+      </div>
+    </div>
+    <div class="header-rule" aria-hidden="true">
+      <div class="rule-line"></div>
+      <div class="rule-dots">················································································</div>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="drop-zone" id="dropZone" tabindex="0" role="button" aria-label="Drop image here or click to select">
+      <div class="drop-corner tl" aria-hidden="true"></div>
+      <div class="drop-corner tr" aria-hidden="true"></div>
+      <div class="drop-corner bl" aria-hidden="true"></div>
+      <div class="drop-corner br" aria-hidden="true"></div>
+
+      <div class="drop-content">
+        <div class="drop-wave" aria-hidden="true">
+          <svg viewBox="0 0 160 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path class="wave-path" d="M0 22 L12 22 L17 6 L22 38 L27 10 L32 34 L37 16 L42 28 L47 22 L58 22 L63 4 L68 40 L73 8 L78 36 L83 14 L88 30 L93 22 L104 22 L109 10 L114 34 L119 16 L124 28 L129 22 L140 22 L145 12 L150 32 L155 22 L160 22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="drop-label">LOAD IMAGE FILE</div>
+        <div class="drop-hint">DROP &nbsp;·&nbsp; OR &nbsp;·&nbsp; BROWSE</div>
+        <div class="drop-formats">JPG &nbsp;&nbsp; PNG &nbsp;&nbsp; BMP</div>
+      </div>
+
+      <input type="file" id="fileInput" accept=".jpg,.jpeg,.png,.bmp,image/jpeg,image/png,image/bmp" aria-hidden="true">
+    </section>
+
+    <section class="options" id="optionsPanel" hidden>
+      <div class="options-tag">CONFIG</div>
+      <div class="options-controls">
+        <label class="toggle-control">
+          <input type="checkbox" id="keepAspect" checked>
+          <span class="toggle-track"></span>
+          <span class="control-text">KEEP ASPECT RATIO</span>
+        </label>
+        <label class="color-control" id="fillColorRow">
+          <span class="control-text">FILL COLOR</span>
+          <input type="color" id="fillColor" value="#000000">
+        </label>
+      </div>
+    </section>
+
+    <section class="previews" id="previewSection" hidden>
+
+      <div class="preview-card src-card">
+        <div class="card-header">
+          <span class="ch-tag">SRC</span>
+          <span class="ch-info" id="origDims">—</span>
+        </div>
+        <div class="canvas-wrap">
+          <canvas id="originalCanvas"></canvas>
+        </div>
+      </div>
+
+      <div class="preview-card out-card">
+        <div class="card-header">
+          <span class="ch-tag">OUTPUT</span>
+          <span class="ch-info">128×138 &nbsp;·&nbsp; 24BIT &nbsp;·&nbsp; ~53KB</span>
+        </div>
+        <div class="device-stage">
+          <div class="device-body">
+            <div class="device-antenna"></div>
+            <div class="device-grille" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="screen-bezel">
+              <div class="screen-inner">
+                <div class="canvas-wrap output-wrap">
+                  <canvas id="outputCanvas" width="128" height="138"></canvas>
+                </div>
+                <div class="scanlines" aria-hidden="true"></div>
+                <div class="screen-glare" aria-hidden="true"></div>
+              </div>
+            </div>
+            <div class="device-label" aria-hidden="true">UV-R5 MINI</div>
+            <div class="device-keys" aria-hidden="true">
+              <span class="key-wide"></span>
+              <span class="key-wide"></span>
+            </div>
+            <div class="device-keys key-row2" aria-hidden="true">
+              <span></span><span></span><span></span>
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <div class="actions" id="actionsRow" hidden>
+      <button id="downloadBtn" class="btn-primary">
+        <span class="btn-arrow" aria-hidden="true">▼</span>
+        <span>EXPORT BMP</span>
+      </button>
+    </div>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
