@@ -5,7 +5,7 @@
 
 A client-side web app that converts images to the 128×138px 24-bit BMP format required by the Baofeng UV-5R Mini walkie-talkie boot screen.
 
-**[Live demo](https://eduardominguez.es/uv-r5-mini-boot-image/)**
+**[Live demo](https://eduardominguez.es/uv-5r-mini-boot-image/)**
 
 ## Screenshots
 
