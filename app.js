@@ -32,7 +32,9 @@ themeToggle.addEventListener('click', () => {
   localStorage.setItem('theme', next);
 });
 
-applyTheme(localStorage.getItem('theme') || 'dark');
+const savedTheme = localStorage.getItem('theme');
+const preferredTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+applyTheme(savedTheme || preferredTheme);
 
 // ── Drop zone ─────────────────────────────────────────────────────────────────
 
