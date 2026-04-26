@@ -5,6 +5,14 @@
 
 A client-side web app that converts images to the 128×138px 24-bit BMP format required by the Baofeng UV-R5 Mini walkie-talkie boot screen.
 
+**[Live demo](https://eduardominguez.es/uv-r5-mini-boot-image/)**
+
+## Screenshots
+
+| Night Ops (dark) | Day Ops (light) |
+|---|---|
+| ![Dark mode](screenshots/dark.png) | ![Light mode](screenshots/light.png) |
+
 ## Usage
 
 Open `index.html` in any modern browser — no server or installation needed.
