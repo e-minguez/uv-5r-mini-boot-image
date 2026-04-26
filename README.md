@@ -1,5 +1,8 @@
 # Baofeng UV-R5 Mini — Boot Screen Image Converter
 
+> ⚠️ **VIBECODED** ⚠️
+> This entire project was vibecoded. No guarantees of correctness, safety, or sanity. Use at your own risk.
+
 A client-side web app that converts images to the 128×138px 24-bit BMP format required by the Baofeng UV-R5 Mini walkie-talkie boot screen.
 
 ## Usage

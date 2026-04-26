@@ -696,6 +696,42 @@ main {
 }
 
 /* ═══════════════════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════════════════ */
+
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 0.75rem 1.5rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  background: var(--surface);
+}
+
+.footer-inner {
+  max-width: 920px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.footer-vibe {
+  color: var(--accent);
+  animation: blink-arrow 2s step-end infinite;
+}
+
+.footer-gh {
+  color: var(--text-muted);
+  text-decoration: none;
+  letter-spacing: 0.15em;
+  transition: color 0.2s;
+}
+
+.footer-gh:hover { color: var(--accent); }
+
+/* ═══════════════════════════════════════════════════
    RESPONSIVE
    ═══════════════════════════════════════════════════ */
 
