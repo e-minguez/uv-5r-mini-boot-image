@@ -282,11 +282,10 @@ main {
   position: relative;
   background: var(--surface);
   border: 1px solid var(--border);
-  padding: 2.75rem 2rem 2.25rem;
   text-align: center;
-  cursor: pointer;
   outline: none;
   transition: background 0.15s, border-color 0.15s;
+  display: flex;
 }
 
 /* Corner targeting marks */
@@ -304,7 +303,7 @@ main {
 .drop-corner.br { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; }
 
 .drop-zone:hover .drop-corner,
-.drop-zone:focus-visible .drop-corner,
+.drop-zone:has(#fileInput:focus-visible) .drop-corner,
 .drop-zone.drag-over .drop-corner {
   border-color: var(--accent);
   width: 22px;
@@ -312,23 +311,26 @@ main {
 }
 
 .drop-zone:hover,
-.drop-zone:focus-visible,
+.drop-zone:has(#fileInput:focus-visible),
 .drop-zone.drag-over {
   background: var(--drop-hover);
   border-color: var(--border-hi);
 }
 
-.drop-zone:focus-visible {
+.drop-zone:has(#fileInput:focus-visible) {
   outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
 }
 
 .drop-content {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 0.4rem;
-  pointer-events: none;
+  padding: 2.75rem 2rem 2.25rem;
+  cursor: pointer;
 }
 
 /* Waveform */
@@ -381,22 +383,41 @@ main {
    ═══════════════════════════════════════════════════ */
 
 .status {
+  position: fixed;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  z-index: 1000;
+  max-width: min(380px, calc(100vw - 2.5rem));
   font-size: 0.875rem;
   letter-spacing: 0.04em;
-  min-height: 0;
-}
-
-.status:not(:empty) {
   background: var(--status-bg);
   border: 1px solid var(--border-hi);
   color: var(--status-text);
-  padding: 0.6rem 1rem;
-  min-height: 2.5rem;
+  padding: 0.65rem 1rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.status:not(:empty) {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .status.error {
   border-color: var(--status-error);
   color: var(--status-error);
+}
+
+@media (max-width: 560px) {
+  .status {
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    max-width: none;
+  }
 }
 
 /* ═══════════════════════════════════════════════════
@@ -862,7 +883,7 @@ main {
   .brand-desc { font-size: 0.8125rem; }
   .brand-spec { font-size: 0.75rem; }
 
-  .drop-zone { padding: 2rem 1rem 1.75rem; }
+  .drop-content { padding: 2rem 1rem 1.75rem; }
   .drop-label { font-size: 1rem; }
 
   .options {

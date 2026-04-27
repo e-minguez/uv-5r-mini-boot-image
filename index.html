@@ -45,24 +45,24 @@
   <main id="main">
 
     <h2 class="visually-hidden">Load image</h2>
-    <section class="drop-zone" id="dropZone" tabindex="0" role="button" aria-label="Load image: drop a JPG, PNG, or BMP file here, or press Enter to browse">
+    <section class="drop-zone" id="dropZone" aria-labelledby="dropLabel">
       <div class="drop-corner tl" aria-hidden="true"></div>
       <div class="drop-corner tr" aria-hidden="true"></div>
       <div class="drop-corner bl" aria-hidden="true"></div>
       <div class="drop-corner br" aria-hidden="true"></div>
 
-      <div class="drop-content">
-        <div class="drop-wave" aria-hidden="true">
+      <input type="file" id="fileInput" class="visually-hidden" accept=".jpg,.jpeg,.png,.bmp,image/jpeg,image/png,image/bmp" aria-label="Choose image file to convert: drop a JPG, PNG, or BMP file in this region, or activate to browse">
+
+      <label class="drop-content" for="fileInput">
+        <span class="drop-wave" aria-hidden="true">
           <svg viewBox="0 0 160 44" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path class="wave-path" d="M0 22 L12 22 L17 6 L22 38 L27 10 L32 34 L37 16 L42 28 L47 22 L58 22 L63 4 L68 40 L73 8 L78 36 L83 14 L88 30 L93 22 L104 22 L109 10 L114 34 L119 16 L124 28 L129 22 L140 22 L145 12 L150 32 L155 22 L160 22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
-        </div>
-        <div class="drop-label">Load image file</div>
-        <div class="drop-hint">Drop &nbsp;·&nbsp; or &nbsp;·&nbsp; browse</div>
-        <div class="drop-formats">JPG &nbsp;&nbsp; PNG &nbsp;&nbsp; BMP</div>
-      </div>
-
-      <input type="file" id="fileInput" class="visually-hidden" tabindex="-1" accept=".jpg,.jpeg,.png,.bmp,image/jpeg,image/png,image/bmp" aria-label="Choose image file to convert">
+        </span>
+        <span id="dropLabel" class="drop-label">Load image file</span>
+        <span class="drop-hint">Drop &nbsp;·&nbsp; or &nbsp;·&nbsp; browse</span>
+        <span class="drop-formats">JPG &nbsp;&nbsp; PNG &nbsp;&nbsp; BMP</span>
+      </label>
     </section>
 
     <div id="status" class="status" role="status" aria-live="polite"></div>
