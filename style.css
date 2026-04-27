@@ -544,7 +544,7 @@ main {
   display: flex;
   gap: 0.85rem;
   flex-wrap: wrap;
-  align-items: flex-start;
+  align-items: stretch;
 }
 
 .preview-card {
@@ -589,6 +589,10 @@ main {
   background: var(--surface2);
   min-height: 90px;
   overflow: hidden;
+}
+
+.src-card .canvas-wrap {
+  flex: 1;
 }
 
 .canvas-wrap canvas {
