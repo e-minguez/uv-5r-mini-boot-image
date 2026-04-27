@@ -16,14 +16,38 @@ const fillColor    = document.getElementById('fillColor');
 const fillRow      = document.getElementById('fillColorRow');
 const downloadBtn  = document.getElementById('downloadBtn');
 const themeToggle  = document.getElementById('themeToggle');
+const themeIcon    = themeToggle.querySelector('.theme-toggle-icon');
+const themeLabel   = themeToggle.querySelector('.theme-toggle-label');
+const statusEl     = document.getElementById('status');
 
 let currentImage = null;
+let statusTimer = null;
+
+// ── Status / errors ─────────────────────────────────────────────────────────
+
+function setStatus(message, kind) {
+  clearTimeout(statusTimer);
+  statusEl.textContent = message;
+  statusEl.classList.toggle('error', kind === 'error');
+  if (message && kind !== 'error') {
+    statusTimer = setTimeout(() => {
+      statusEl.textContent = '';
+      statusEl.classList.remove('error');
+    }, 4000);
+  }
+}
 
 // ── Theme ────────────────────────────────────────────────────────────────────
 
 function applyTheme(theme) {
   document.body.className = theme;
-  themeToggle.textContent = theme === 'dark' ? '☀ Light' : '☾ Dark';
+  const isDark = theme === 'dark';
+  themeIcon.textContent = isDark ? '☾' : '☀';
+  themeLabel.textContent = isDark ? 'Dark mode' : 'Light mode';
+  themeToggle.setAttribute('aria-pressed', String(isDark));
+  themeToggle.setAttribute('aria-label',
+    isDark ? 'Theme: dark mode active. Activate to switch to light mode.'
+           : 'Theme: light mode active. Activate to switch to dark mode.');
 }
 
 themeToggle.addEventListener('click', () => {
@@ -38,7 +62,17 @@ applyTheme(savedTheme || preferredTheme);
 
 // ── Drop zone ─────────────────────────────────────────────────────────────────
 
-dropZone.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') fileInput.click(); });
+dropZone.addEventListener('keydown', e => {
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    fileInput.click();
+  }
+});
+
+dropZone.addEventListener('click', e => {
+  if (e.target === fileInput) return;
+  fileInput.click();
+});
 
 dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
 dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
@@ -60,9 +94,11 @@ const ALLOWED_EXT   = /\.(jpe?g|png|bmp)$/i;
 
 function loadFile(file) {
   if (!ALLOWED_TYPES.has(file.type) && !ALLOWED_EXT.test(file.name)) {
-    alert('Unsupported file type. Please use JPG, PNG, or BMP.');
+    setStatus('Unsupported file type. Please choose a JPG, PNG, or BMP image.', 'error');
     return;
   }
+
+  setStatus('Loading image…');
 
   const reader = new FileReader();
   reader.onload = e => {
@@ -74,9 +110,12 @@ function loadFile(file) {
       optionsPanel.hidden = false;
       previewSec.hidden   = false;
       actionsRow.hidden   = false;
+      setStatus(`Image loaded (${img.naturalWidth} × ${img.naturalHeight}). Converted preview ready.`);
     };
+    img.onerror = () => setStatus('Could not read that image. The file may be corrupted.', 'error');
     img.src = e.target.result;
   };
+  reader.onerror = () => setStatus('Could not read the file.', 'error');
   reader.readAsDataURL(file);
 }
 
@@ -193,4 +232,5 @@ downloadBtn.addEventListener('click', () => {
   a.download = 'baofeng_boot.bmp';
   a.click();
   URL.revokeObjectURL(url);
+  setStatus('Exported baofeng_boot.bmp.');
 });
