@@ -62,18 +62,6 @@ applyTheme(savedTheme || preferredTheme);
 
 // ── Drop zone ─────────────────────────────────────────────────────────────────
 
-dropZone.addEventListener('keydown', e => {
-  if (e.key === 'Enter' || e.key === ' ') {
-    e.preventDefault();
-    fileInput.click();
-  }
-});
-
-dropZone.addEventListener('click', e => {
-  if (e.target === fileInput) return;
-  fileInput.click();
-});
-
 dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
 dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
 dropZone.addEventListener('drop', e => {
