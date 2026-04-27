@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>UV-5R Mini // BOOT IMG</title>
+  <title>UV-5R Mini Boot Image Converter</title>
+  <meta name="description" content="Convert any image to the 128×138 24-bit BMP boot screen format used by the Baofeng UV-5R Mini handheld radio. Runs entirely in your browser.">
+  <meta name="color-scheme" content="dark light">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
@@ -11,22 +13,27 @@
 </head>
 <body class="dark">
 
+  <a class="skip-link" href="#main">Skip to converter</a>
+
   <header>
     <div class="header-inner">
       <div class="brand">
-        <div class="brand-top">
+        <h1 class="brand-top">
           <span class="brand-make">BAOFENG</span>
-          <span class="brand-sep">///</span>
+          <span class="brand-sep" aria-hidden="true">///</span>
           <span class="brand-model">UV-5R MINI</span>
-        </div>
-        <div class="brand-desc">BOOT SCREEN IMAGE CONVERTER</div>
-        <div class="brand-spec">128×138px &nbsp;·&nbsp; 24-BIT BMP &nbsp;·&nbsp; CLIENT-SIDE</div>
+        </h1>
+        <p class="brand-desc">Boot screen image converter</p>
+        <p class="brand-spec">128×138 px &nbsp;·&nbsp; 24-bit BMP &nbsp;·&nbsp; Client-side</p>
       </div>
       <div class="header-right">
         <div class="sig-meter" aria-hidden="true">
           <span></span><span></span><span></span><span></span><span></span>
         </div>
-        <button id="themeToggle" aria-label="Toggle display mode">DAY MODE</button>
+        <button id="themeToggle" type="button" aria-pressed="true">
+          <span class="theme-toggle-icon" aria-hidden="true">☾</span>
+          <span class="theme-toggle-label">Dark mode</span>
+        </button>
       </div>
     </div>
     <div class="header-rule" aria-hidden="true">
@@ -35,9 +42,10 @@
     </div>
   </header>
 
-  <main>
+  <main id="main">
 
-    <section class="drop-zone" id="dropZone" tabindex="0" role="button" aria-label="Drop image here or click to select">
+    <h2 class="visually-hidden">Load image</h2>
+    <section class="drop-zone" id="dropZone" tabindex="0" role="button" aria-label="Load image: drop a JPG, PNG, or BMP file here, or press Enter to browse">
       <div class="drop-corner tl" aria-hidden="true"></div>
       <div class="drop-corner tr" aria-hidden="true"></div>
       <div class="drop-corner bl" aria-hidden="true"></div>
@@ -49,67 +57,69 @@
             <path class="wave-path" d="M0 22 L12 22 L17 6 L22 38 L27 10 L32 34 L37 16 L42 28 L47 22 L58 22 L63 4 L68 40 L73 8 L78 36 L83 14 L88 30 L93 22 L104 22 L109 10 L114 34 L119 16 L124 28 L129 22 L140 22 L145 12 L150 32 L155 22 L160 22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
-        <div class="drop-label">LOAD IMAGE FILE</div>
-        <div class="drop-hint">DROP &nbsp;·&nbsp; OR &nbsp;·&nbsp; BROWSE</div>
+        <div class="drop-label">Load image file</div>
+        <div class="drop-hint">Drop &nbsp;·&nbsp; or &nbsp;·&nbsp; browse</div>
         <div class="drop-formats">JPG &nbsp;&nbsp; PNG &nbsp;&nbsp; BMP</div>
       </div>
 
-      <input type="file" id="fileInput" accept=".jpg,.jpeg,.png,.bmp,image/jpeg,image/png,image/bmp" aria-hidden="true">
+      <input type="file" id="fileInput" class="visually-hidden" tabindex="-1" accept=".jpg,.jpeg,.png,.bmp,image/jpeg,image/png,image/bmp" aria-label="Choose image file to convert">
     </section>
 
-    <section class="options" id="optionsPanel" hidden>
-      <div class="options-tag">CONFIG</div>
+    <div id="status" class="status" role="status" aria-live="polite"></div>
+
+    <section class="options" id="optionsPanel" hidden aria-label="Conversion options">
+      <div class="options-tag" aria-hidden="true">CONFIG</div>
       <div class="options-controls">
         <label class="toggle-control">
           <input type="checkbox" id="keepAspect" checked>
-          <span class="toggle-track"></span>
-          <span class="control-text">KEEP ASPECT RATIO</span>
+          <span class="toggle-track" aria-hidden="true"></span>
+          <span class="control-text">Keep aspect ratio</span>
         </label>
         <label class="color-control" id="fillColorRow">
-          <span class="control-text">FILL COLOR</span>
-          <input type="color" id="fillColor" value="#000000">
+          <span class="control-text">Fill color</span>
+          <input type="color" id="fillColor" value="#000000" aria-label="Fill color for empty area when keeping aspect ratio">
         </label>
       </div>
     </section>
 
-    <section class="previews" id="previewSection" hidden>
+    <section class="previews" id="previewSection" hidden aria-label="Image previews">
 
       <div class="preview-card src-card">
         <div class="card-header">
-          <span class="ch-tag">SRC</span>
-          <span class="ch-info" id="origDims">—</span>
+          <span class="ch-tag">Source</span>
+          <span class="ch-info" id="origDims" aria-live="polite">—</span>
         </div>
         <div class="canvas-wrap">
-          <canvas id="originalCanvas"></canvas>
+          <canvas id="originalCanvas" role="img" aria-label="Source image preview"></canvas>
         </div>
       </div>
 
       <div class="preview-card out-card">
         <div class="card-header">
-          <span class="ch-tag">OUTPUT</span>
-          <span class="ch-info">128×138 &nbsp;·&nbsp; 24BIT &nbsp;·&nbsp; ~53KB</span>
+          <span class="ch-tag">Output</span>
+          <span class="ch-info">128×138 &nbsp;·&nbsp; 24-bit &nbsp;·&nbsp; ~53 KB</span>
         </div>
         <div class="device-stage">
-          <div class="device-body">
+          <div class="device-body" aria-hidden="true">
             <div class="device-antenna"></div>
-            <div class="device-grille" aria-hidden="true">
+            <div class="device-grille">
               <span></span><span></span><span></span><span></span><span></span>
             </div>
             <div class="screen-bezel">
               <div class="screen-inner">
                 <div class="canvas-wrap output-wrap">
-                  <canvas id="outputCanvas" width="128" height="138"></canvas>
+                  <canvas id="outputCanvas" width="128" height="138" role="img" aria-label="Converted boot screen preview at 128 by 138 pixels"></canvas>
                 </div>
-                <div class="scanlines" aria-hidden="true"></div>
-                <div class="screen-glare" aria-hidden="true"></div>
+                <div class="scanlines"></div>
+                <div class="screen-glare"></div>
               </div>
             </div>
-            <div class="device-label" aria-hidden="true">UV-5R MINI</div>
-            <div class="device-keys" aria-hidden="true">
+            <div class="device-label">UV-5R MINI</div>
+            <div class="device-keys">
               <span class="key-wide"></span>
               <span class="key-wide"></span>
             </div>
-            <div class="device-keys key-row2" aria-hidden="true">
+            <div class="device-keys key-row2">
               <span></span><span></span><span></span>
               <span></span><span></span><span></span>
             </div>
@@ -120,9 +130,9 @@
     </section>
 
     <div class="actions" id="actionsRow" hidden>
-      <button id="downloadBtn" class="btn-primary">
+      <button id="downloadBtn" type="button" class="btn-primary">
         <span class="btn-arrow" aria-hidden="true">▼</span>
-        <span>EXPORT BMP</span>
+        <span>Export BMP</span>
       </button>
     </div>
 
@@ -130,8 +140,11 @@
 
   <footer class="site-footer">
     <div class="footer-inner">
-      <span class="footer-vibe">⚠ VIBECODED — NO GUARANTEES OF CORRECTNESS, SAFETY, OR SANITY ⚠</span>
-      <a class="footer-gh" href="https://github.com/e-minguez/uv-r5-mini-boot-image" target="_blank" rel="noopener">[ SOURCE ON GITHUB ]</a>
+      <span class="footer-vibe">⚠ Vibecoded — no guarantees of correctness, safety, or sanity ⚠</span>
+      <a class="footer-gh" href="https://github.com/e-minguez/uv-5r-mini-boot-image" target="_blank" rel="noopener">
+        Source on GitHub
+        <span class="visually-hidden"> (opens in a new tab)</span>
+      </a>
     </div>
   </footer>
 
